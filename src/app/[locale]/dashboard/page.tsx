@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface DashboardStats {
   totalWorkflows: number;
@@ -34,6 +35,7 @@ const statusColors: Record<string, string> = {
 };
 
 export default function DashboardPage() {
+  const t = useTranslations("dashboard");
   const [stats, setStats] = useState<DashboardStats>({
     totalWorkflows: 0,
     activeWorkflows: 0,
@@ -66,32 +68,32 @@ export default function DashboardPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-500 mt-1">Overview of your IT automation workflows</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
+          <p className="text-gray-500 mt-1">{t("subtitle")}</p>
         </div>
         <Link
           href="/workflows"
           className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium"
         >
-          + New Workflow
+          {t("newWorkflow")}
         </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <StatCard label="Total Workflows" value={stats.totalWorkflows} color="text-gray-900" />
-        <StatCard label="Active" value={stats.activeWorkflows} color="text-green-600" />
-        <StatCard label="Total Executions" value={stats.totalExecutions} color="text-primary-600" />
-        <StatCard label="Failed" value={stats.failedExecutions} color="text-red-600" />
+        <StatCard label={t("totalWorkflows")} value={stats.totalWorkflows} color="text-gray-900" />
+        <StatCard label={t("active")} value={stats.activeWorkflows} color="text-green-600" />
+        <StatCard label={t("totalExecutions")} value={stats.totalExecutions} color="text-primary-600" />
+        <StatCard label={t("failed")} value={stats.failedExecutions} color="text-red-600" />
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">Recent Executions</h2>
+          <h2 className="text-lg font-semibold text-gray-900">{t("recentExecutions")}</h2>
         </div>
         <div className="divide-y divide-gray-100">
           {recentExecutions.length === 0 ? (
             <div className="p-8 text-center text-gray-400">
-              No executions yet. Create and run a workflow to see results here.
+              {t("noExecutions")}
             </div>
           ) : (
             recentExecutions.map((execution) => (

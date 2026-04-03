@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface Workflow {
   id: string;
@@ -21,6 +22,8 @@ const statusBadge: Record<string, string> = {
 };
 
 export default function WorkflowsPage() {
+  const t = useTranslations("workflows");
+  const tc = useTranslations("common");
   const [workflows, setWorkflows] = useState<Workflow[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -33,7 +36,7 @@ export default function WorkflowsPage() {
   }, []);
 
   async function handleDelete(id: string) {
-    if (!confirm("Delete this workflow?")) return;
+    if (!confirm(t("deleteConfirm"))) return;
     await fetch(`/api/workflows?id=${id}`, { method: "DELETE" });
     setWorkflows((prev) => prev.filter((w) => w.id !== id));
   }
@@ -46,14 +49,14 @@ export default function WorkflowsPage() {
     });
     const data = await res.json();
     if (data.execution) {
-      alert(`Execution started: ${data.execution.id}`);
+      alert(t("executionStarted", { id: data.execution.id }));
     }
   }
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <p className="text-gray-400">Loading workflows...</p>
+        <p className="text-gray-400">{tc("loading")}</p>
       </div>
     );
   }
@@ -62,28 +65,28 @@ export default function WorkflowsPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Workflows</h1>
-          <p className="text-gray-500 mt-1">Manage your automation workflows</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
+          <p className="text-gray-500 mt-1">{t("subtitle")}</p>
         </div>
         <Link
           href="/workflows/new"
           className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium"
         >
-          + Create Workflow
+          {t("createWorkflow")}
         </Link>
       </div>
 
       {workflows.length === 0 ? (
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No workflows yet</h3>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">{t("noWorkflows")}</h3>
           <p className="text-gray-500 mb-6">
-            Create your first automation workflow to get started.
+            {t("noWorkflowsDescription")}
           </p>
           <Link
             href="/workflows/new"
             className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium"
           >
-            Create Workflow
+            {t("create")}
           </Link>
         </div>
       ) : (
@@ -106,10 +109,10 @@ export default function WorkflowsPage() {
                   <p className="text-sm text-gray-500 mb-2">{workflow.description}</p>
                 )}
                 <div className="flex gap-4 text-xs text-gray-400">
-                  <span>{workflow._count.steps} steps</span>
-                  <span>{workflow._count.executions} executions</span>
-                  <span>Trigger: {workflow.trigger}</span>
-                  <span>Updated: {new Date(workflow.updatedAt).toLocaleDateString()}</span>
+                  <span>{t("steps", { count: workflow._count.steps })}</span>
+                  <span>{t("executions", { count: workflow._count.executions })}</span>
+                  <span>{t("trigger", { type: workflow.trigger })}</span>
+                  <span>{t("updated", { date: new Date(workflow.updatedAt).toLocaleDateString() })}</span>
                 </div>
               </div>
               <div className="flex gap-2 ml-4">
@@ -117,13 +120,13 @@ export default function WorkflowsPage() {
                   onClick={() => handleRun(workflow.id)}
                   className="px-3 py-1.5 text-sm bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors"
                 >
-                  Run
+                  {tc("run")}
                 </button>
                 <button
                   onClick={() => handleDelete(workflow.id)}
                   className="px-3 py-1.5 text-sm bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors"
                 >
-                  Delete
+                  {tc("delete")}
                 </button>
               </div>
             </div>

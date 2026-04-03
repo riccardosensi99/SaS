@@ -1,5 +1,244 @@
 ==============================================================================
-  PROJECT SETUP
+  CORE PLATFORM
 ==============================================================================
+
+------------------------------------------------------------------------------
+[ ] INTG-0002 — Integration Connector Marketplace
+------------------------------------------------------------------------------
+  Priority: HIGH
+  Dependencies: None
+  Release: None
+
+  DESCRIPTION:
+  Build a plugin-based connector system that provides pre-built integrations
+  for common IT tools and services. Each connector exposes actions and
+  triggers that can be used as workflow steps without manual HTTP
+  configuration. Initial connectors: Active Directory/LDAP for user
+  management, Slack for notifications, Jira for ticket operations,
+  PagerDuty for incident alerts, and cloud provider APIs (AWS/Azure/GCP).
+  Includes a browsable marketplace UI for discovering and enabling
+  connectors per organization.
+
+  TECHNICAL DETAILS:
+  Connector Architecture:
+    - Plugin interface with standard lifecycle (init, execute, validate)
+    - Registry pattern for dynamic connector discovery and loading
+    - Per-organization connector configuration with encrypted credentials
+    - Connector actions map to workflow step types at runtime
+
+  Frontend:
+    - Marketplace page with search, filter by category, and enable/disable
+    - Connector config modal for credentials and settings
+    - Canvas integration: connector steps appear in the step palette
+
+  Backend:
+    - Connectors API for CRUD and marketplace listing
+    - Worker integration: execute connector actions during workflow runs
+    - Credential storage with encryption at rest
+
+  Database:
+    - Connector model (name, type, version, schema, icon)
+    - ConnectorConfig model (organizationId, connectorId, credentials)
+
+  Files involved:
+    CREATE:  src/lib/connectors/types.ts
+    CREATE:  src/lib/connectors/registry.ts
+    CREATE:  src/lib/connectors/slack/index.ts
+    CREATE:  src/lib/connectors/jira/index.ts
+    CREATE:  src/lib/connectors/ldap/index.ts
+    CREATE:  src/app/connectors/page.tsx
+    CREATE:  src/app/api/connectors/route.ts
+    MODIFY:  src/components/workflow-builder/Canvas.tsx
+    MODIFY:  src/lib/queue/worker.ts
+    MODIFY:  prisma/schema.prisma
+
+
+------------------------------------------------------------------------------
+[ ] AI-0003 — AI-Powered Natural Language Workflow Builder
+------------------------------------------------------------------------------
+  Priority: MEDIUM
+  Dependencies: None
+  Release: None
+
+  DESCRIPTION:
+  Add an AI assistant that allows users to describe automation workflows
+  in plain English and auto-generate the corresponding workflow graph
+  with appropriate steps, conditions, and connections. The assistant
+  uses an LLM to parse intent, map to available step types and
+  connectors, and produce a valid React Flow node/edge definition.
+  Also supports analyzing existing workflows to suggest improvements,
+  and explaining what each step does in natural language.
+
+  TECHNICAL DETAILS:
+  AI Engine:
+    - Workflow generator: NL prompt -> structured workflow definition
+    - Workflow analyzer: existing workflow -> improvement suggestions
+    - Step explainer: step config -> human-readable description
+    - Uses Claude API for generation with structured output
+
+  Frontend:
+    - AI assistant panel in workflow builder (slide-out chat UI)
+    - "Create with AI" button on workflows page
+    - Inline suggestions overlay on existing workflow canvas
+
+  Backend:
+    - /api/ai/generate endpoint: accepts NL prompt, returns workflow JSON
+    - Context injection: available step types, connectors, org templates
+    - Rate limiting per organization
+
+  Files involved:
+    CREATE:  src/lib/ai/workflow-generator.ts
+    CREATE:  src/lib/ai/workflow-analyzer.ts
+    CREATE:  src/components/workflow-builder/AiAssistant.tsx
+    CREATE:  src/app/api/ai/generate/route.ts
+    MODIFY:  src/components/workflow-builder/Canvas.tsx
+    MODIFY:  src/app/workflows/page.tsx
+
+
+------------------------------------------------------------------------------
+[ ] TMPL-0005 — Pre-Built IT Workflow Template Library
+------------------------------------------------------------------------------
+  Priority: HIGH
+  Dependencies: None
+  Release: None
+
+  DESCRIPTION:
+  A curated library of ready-to-use workflow templates covering the most
+  common IT operations. Each template is a complete workflow definition
+  (nodes, edges, step configs) with documentation explaining purpose,
+  prerequisites, expected outcomes, and customization points. Templates
+  are one-click importable into a user's workspace and fully editable.
+  Initial templates: employee onboarding, employee offboarding, software
+  provisioning, patch management, backup verification, and access review.
+
+  TECHNICAL DETAILS:
+  Template System:
+    - Template registry with metadata (name, category, tags, description)
+    - Template definitions as JSON workflow graphs
+    - Import flow: clone template -> create new workflow -> open in editor
+    - Version tracking for template updates
+
+  Frontend:
+    - Templates page with category filters, search, and preview cards
+    - Template detail view with step-by-step documentation
+    - "Use Template" and "From Template" buttons integrated in workflows UI
+
+  Backend:
+    - /api/templates endpoint for listing, viewing, and importing
+    - Template model in database for custom/org-specific templates
+
+  Database:
+    - WorkflowTemplate model (name, category, definition, documentation)
+
+  Files involved:
+    CREATE:  src/app/templates/page.tsx
+    CREATE:  src/app/api/templates/route.ts
+    CREATE:  src/lib/templates/index.ts
+    CREATE:  src/lib/templates/onboarding.ts
+    CREATE:  src/lib/templates/offboarding.ts
+    CREATE:  src/lib/templates/patch-management.ts
+    CREATE:  src/lib/templates/backup-verification.ts
+    CREATE:  src/lib/templates/access-review.ts
+    MODIFY:  prisma/schema.prisma
+    MODIFY:  src/app/layout.tsx
+    MODIFY:  src/app/workflows/page.tsx
+
+
+==============================================================================
+  SECURITY & COMPLIANCE
+==============================================================================
+
+------------------------------------------------------------------------------
+[ ] COMP-0004 — Compliance Dashboard and Automated Audit Reporting
+------------------------------------------------------------------------------
+  Priority: MEDIUM
+  Dependencies: None
+  Release: None
+
+  DESCRIPTION:
+  A compliance dashboard that surfaces the existing AuditLog data into
+  actionable views organized by compliance framework (SOC 2, HIPAA, GDPR,
+  PCI-DSS). Each framework view maps audit log entries to specific controls,
+  showing enforcement status and gaps. Includes exportable PDF and CSV
+  reports with execution history as evidence. Supports scheduled report
+  generation with email delivery to stakeholders (weekly/monthly).
+
+  TECHNICAL DETAILS:
+  Compliance Engine:
+    - Framework definitions mapping controls to audit log actions
+    - Control status calculation: enforced, partial, gap
+    - Report generator producing PDF and CSV output
+
+  Frontend:
+    - Compliance dashboard with framework selector and status overview
+    - Per-framework detail page with control-by-control breakdown
+    - Report generation UI with format and schedule options
+
+  Backend:
+    - /api/compliance endpoint for dashboard data and control status
+    - /api/compliance/reports endpoint for on-demand and scheduled reports
+
+  Database:
+    - ComplianceReport model (framework, generatedAt, format, url)
+    - ComplianceControl model (framework, controlId, description, status)
+
+  Files involved:
+    CREATE:  src/app/compliance/page.tsx
+    CREATE:  src/app/compliance/[framework]/page.tsx
+    CREATE:  src/app/api/compliance/route.ts
+    CREATE:  src/app/api/compliance/reports/route.ts
+    CREATE:  src/lib/compliance/frameworks.ts
+    CREATE:  src/lib/compliance/report-generator.ts
+    MODIFY:  prisma/schema.prisma
+    MODIFY:  src/app/layout.tsx
+
+
+------------------------------------------------------------------------------
+[ ] SEC-0006 — Automated Security Incident Response Playbooks
+------------------------------------------------------------------------------
+  Priority: MEDIUM
+  Dependencies: TMPL-0005
+  Release: None
+
+  DESCRIPTION:
+  Pre-built security response workflow playbooks for common incident types.
+  Each playbook is a specialized workflow template with automated actions
+  and human approval gates for critical decisions. Includes a dedicated
+  security dashboard for monitoring active incidents and response status.
+  Initial playbooks: ransomware detection response, phishing email
+  containment, compromised account lockdown, and data breach notification.
+  Playbooks integrate with the approval step type for escalation and
+  with connectors for automated remediation actions.
+
+  TECHNICAL DETAILS:
+  Playbook System:
+    - Extends template library with security-specific metadata
+    - Incident severity levels and escalation policies
+    - Automated actions: isolate host, revoke credentials, collect logs
+    - Human approval gates for destructive or irreversible actions
+
+  Frontend:
+    - Security playbooks dashboard with incident timeline
+    - Active incident tracker with real-time status updates
+    - Playbook detail view with response procedure documentation
+
+  Backend:
+    - /api/security/incidents endpoint for incident tracking
+    - Priority queue execution for security workflows
+    - Incident model linking executions to security events
+
+  Database:
+    - SecurityIncident model (type, severity, status, playbookId, timeline)
+
+  Files involved:
+    CREATE:  src/lib/templates/security/ransomware-response.ts
+    CREATE:  src/lib/templates/security/phishing-containment.ts
+    CREATE:  src/lib/templates/security/account-lockdown.ts
+    CREATE:  src/lib/templates/security/breach-notification.ts
+    CREATE:  src/app/security/page.tsx
+    CREATE:  src/app/api/security/incidents/route.ts
+    MODIFY:  prisma/schema.prisma
+    MODIFY:  src/app/layout.tsx
+    MODIFY:  src/lib/queue/worker.ts
 
 

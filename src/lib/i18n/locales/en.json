@@ -1,0 +1,46 @@
+{
+  "common": {
+    "appName": "IT Ops Automation",
+    "appTagline": "Workflow Platform",
+    "version": "v0.1.0",
+    "dashboard": "Dashboard",
+    "workflows": "Workflows",
+    "loading": "Loading...",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "run": "Run",
+    "language": "Language"
+  },
+  "landing": {
+    "title": "IT Ops Automation",
+    "description": "Automate your IT operations with visual workflows. Onboarding, provisioning, maintenance, and more — all in one place.",
+    "goToDashboard": "Go to Dashboard",
+    "viewWorkflows": "View Workflows"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of your IT automation workflows",
+    "newWorkflow": "+ New Workflow",
+    "totalWorkflows": "Total Workflows",
+    "active": "Active",
+    "totalExecutions": "Total Executions",
+    "failed": "Failed",
+    "recentExecutions": "Recent Executions",
+    "noExecutions": "No executions yet. Create and run a workflow to see results here."
+  },
+  "workflows": {
+    "title": "Workflows",
+    "subtitle": "Manage your automation workflows",
+    "createWorkflow": "+ Create Workflow",
+    "create": "Create Workflow",
+    "noWorkflows": "No workflows yet",
+    "noWorkflowsDescription": "Create your first automation workflow to get started.",
+    "deleteConfirm": "Delete this workflow?",
+    "executionStarted": "Execution started: {id}",
+    "steps": "{count} steps",
+    "executions": "{count} executions",
+    "trigger": "Trigger: {type}",
+    "updated": "Updated: {date}"
+  }
+}
