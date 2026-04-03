@@ -1,0 +1,46 @@
+{
+  "common": {
+    "appName": "IT Ops Automation",
+    "appTagline": "Piattaforma Workflow",
+    "version": "v0.1.0",
+    "dashboard": "Dashboard",
+    "workflows": "Workflow",
+    "loading": "Caricamento...",
+    "confirm": "Conferma",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "run": "Esegui",
+    "language": "Lingua"
+  },
+  "landing": {
+    "title": "IT Ops Automation",
+    "description": "Automatizza le operazioni IT con workflow visivi. Onboarding, provisioning, manutenzione e altro — tutto in un unico posto.",
+    "goToDashboard": "Vai alla Dashboard",
+    "viewWorkflows": "Vedi i Workflow"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Panoramica dei tuoi workflow di automazione IT",
+    "newWorkflow": "+ Nuovo Workflow",
+    "totalWorkflows": "Workflow Totali",
+    "active": "Attivi",
+    "totalExecutions": "Esecuzioni Totali",
+    "failed": "Fallite",
+    "recentExecutions": "Esecuzioni Recenti",
+    "noExecutions": "Nessuna esecuzione ancora. Crea e avvia un workflow per vedere i risultati qui."
+  },
+  "workflows": {
+    "title": "Workflow",
+    "subtitle": "Gestisci i tuoi workflow di automazione",
+    "createWorkflow": "+ Crea Workflow",
+    "create": "Crea Workflow",
+    "noWorkflows": "Nessun workflow ancora",
+    "noWorkflowsDescription": "Crea il tuo primo workflow di automazione per iniziare.",
+    "deleteConfirm": "Eliminare questo workflow?",
+    "executionStarted": "Esecuzione avviata: {id}",
+    "steps": "{count} passaggi",
+    "executions": "{count} esecuzioni",
+    "trigger": "Trigger: {type}",
+    "updated": "Aggiornato: {date}"
+  }
+}

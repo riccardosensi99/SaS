@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:1111systems.com)",
+      "WebFetch(domain:www.nxcode.io)"
+    ]
+  }
+}
