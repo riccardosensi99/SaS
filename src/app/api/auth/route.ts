@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
 import { prisma } from "@/lib/db";
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "15m";
-const JWT_REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN || "7d";
+const JWT_EXPIRES_IN = (process.env.JWT_EXPIRES_IN || "15m") as jwt.SignOptions["expiresIn"];
+const JWT_REFRESH_EXPIRES_IN = (process.env.JWT_REFRESH_EXPIRES_IN || "7d") as jwt.SignOptions["expiresIn"];
 
 function generateTokens(userId: string, organizationId: string) {
   const accessToken = jwt.sign({ userId, organizationId }, JWT_SECRET, {

@@ -54,8 +54,27 @@
 
 
 ==============================================================================
-  SECURITY & COMPLIANCE
+  TESTING & CI
 ==============================================================================
 
+------------------------------------------------------------------------------
+[ ] E2E-0009 — Playwright E2E Test Suite with Parallel CI Pipeline
+------------------------------------------------------------------------------
+  Priority: HIGH
+  Dependencies: None
+  Release: None
+
+  Files involved:
+    CREATE:  e2e/playwright.config.ts
+    CREATE:  e2e/pages.spec.ts
+    CREATE:  e2e/navigation.spec.ts
+    CREATE:  e2e/i18n.spec.ts
+    MODIFY:  package.json
+    MODIFY:  .github/workflows/test.yml
+
+
+==============================================================================
+  SECURITY & COMPLIANCE
+==============================================================================
 
 

@@ -13,7 +13,9 @@
     "db:studio": "prisma studio",
     "worker": "tsx src/lib/queue/worker.ts",
     "test": "jest --forceExit --detectOpenHandles",
-    "test:watch": "jest --watch --forceExit --detectOpenHandles"
+    "test:watch": "jest --watch --forceExit --detectOpenHandles",
+    "test:e2e": "playwright test --config e2e/playwright.config.ts",
+    "test:e2e:headed": "playwright test --config e2e/playwright.config.ts --headed"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.30.0",
@@ -30,6 +32,7 @@
     "zustand": "^4.5.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.6",
