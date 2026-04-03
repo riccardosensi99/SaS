@@ -45,6 +45,24 @@
   Task completed and verified.
 
 
+------------------------------------------------------------------------------
+[x] TMPL-0005 — Pre-Built IT Workflow Template Library
+------------------------------------------------------------------------------
+  Priority: HIGH
+  Dependencies: None
+  Release: None
+
+  DESCRIPTION:
+  Built 5 curated workflow templates (Employee Onboarding, Employee
+  Offboarding, Patch Management, Backup Verification, Access Review)
+  with full i18n EN/IT support. Template marketplace UI with category
+  filters and one-click import. Templates create real workflows in DB
+  with translated name and description based on active locale.
+
+  COMPLETED: 2026-04-03
+  Task completed and verified.
+
+
 ==============================================================================
   CORE PLATFORM
 ==============================================================================

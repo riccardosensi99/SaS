@@ -14,7 +14,8 @@
     "connectors": "Connectors",
     "enable": "Enable",
     "disable": "Disable",
-    "active": "Active"
+    "active": "Active",
+    "templates": "Templates"
   },
   "connectors": {
     "title": "Connectors",
@@ -40,6 +41,29 @@
     "create-user": "Create User",
     "disable-user": "Disable User",
     "search-users": "Search Users"
+  },
+  "templates": {
+    "title": "Templates",
+    "subtitle": "Ready-to-use workflow templates for common IT operations",
+    "all": "All",
+    "hr": "HR & People",
+    "security": "Security",
+    "maintenance": "Maintenance",
+    "compliance": "Compliance",
+    "useTemplate": "Use Template",
+    "steps": "{count} steps",
+    "importSuccess": "Workflow \"{name}\" created from template!",
+    "importError": "Failed to import template",
+    "onboarding_name": "Employee Onboarding",
+    "onboarding_desc": "Automate the full employee onboarding process: create accounts, provision access, notify teams, and set up workstation.",
+    "offboarding_name": "Employee Offboarding",
+    "offboarding_desc": "Securely decommission departing employee: revoke access, disable accounts, transfer data, and notify stakeholders.",
+    "patch_name": "Patch Management",
+    "patch_desc": "Scheduled patch deployment: scan for updates, test in staging, deploy to production, and verify compliance.",
+    "backup_name": "Backup Verification",
+    "backup_desc": "Automated backup health checks: verify backup jobs completed, test restore capability, and alert on failures.",
+    "access_name": "Access Review",
+    "access_desc": "Periodic access audit: pull user permissions, flag excessive access, route approvals to managers, and revoke unauthorized access."
   },
   "landing": {
     "title": "IT Ops Automation",
