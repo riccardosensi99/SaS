@@ -45,54 +45,6 @@
     MODIFY:  src/app/workflows/page.tsx
 
 
-------------------------------------------------------------------------------
-[ ] TMPL-0005 — Pre-Built IT Workflow Template Library
-------------------------------------------------------------------------------
-  Priority: HIGH
-  Dependencies: None
-  Release: None
-
-  DESCRIPTION:
-  A curated library of ready-to-use workflow templates covering the most
-  common IT operations. Each template is a complete workflow definition
-  (nodes, edges, step configs) with documentation explaining purpose,
-  prerequisites, expected outcomes, and customization points. Templates
-  are one-click importable into a user's workspace and fully editable.
-  Initial templates: employee onboarding, employee offboarding, software
-  provisioning, patch management, backup verification, and access review.
-
-  TECHNICAL DETAILS:
-  Template System:
-    - Template registry with metadata (name, category, tags, description)
-    - Template definitions as JSON workflow graphs
-    - Import flow: clone template -> create new workflow -> open in editor
-    - Version tracking for template updates
-
-  Frontend:
-    - Templates page with category filters, search, and preview cards
-    - Template detail view with step-by-step documentation
-    - "Use Template" and "From Template" buttons integrated in workflows UI
-
-  Backend:
-    - /api/templates endpoint for listing, viewing, and importing
-    - Template model in database for custom/org-specific templates
-
-  Database:
-    - WorkflowTemplate model (name, category, definition, documentation)
-
-  Files involved:
-    CREATE:  src/app/templates/page.tsx
-    CREATE:  src/app/api/templates/route.ts
-    CREATE:  src/lib/templates/index.ts
-    CREATE:  src/lib/templates/onboarding.ts
-    CREATE:  src/lib/templates/offboarding.ts
-    CREATE:  src/lib/templates/patch-management.ts
-    CREATE:  src/lib/templates/backup-verification.ts
-    CREATE:  src/lib/templates/access-review.ts
-    MODIFY:  prisma/schema.prisma
-    MODIFY:  src/app/layout.tsx
-    MODIFY:  src/app/workflows/page.tsx
-
 
 ==============================================================================
   SECURITY & COMPLIANCE

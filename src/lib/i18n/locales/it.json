@@ -14,7 +14,8 @@
     "connectors": "Connettori",
     "enable": "Abilita",
     "disable": "Disabilita",
-    "active": "Attivo"
+    "active": "Attivo",
+    "templates": "Template"
   },
   "connectors": {
     "title": "Connettori",
@@ -40,6 +41,29 @@
     "create-user": "Crea Utente",
     "disable-user": "Disabilita Utente",
     "search-users": "Cerca Utenti"
+  },
+  "templates": {
+    "title": "Template",
+    "subtitle": "Template di workflow pronti all'uso per le operazioni IT piu comuni",
+    "all": "Tutti",
+    "hr": "HR e Persone",
+    "security": "Sicurezza",
+    "maintenance": "Manutenzione",
+    "compliance": "Conformita",
+    "useTemplate": "Usa Template",
+    "steps": "{count} passaggi",
+    "importSuccess": "Workflow \"{name}\" creato dal template!",
+    "importError": "Errore durante l'importazione del template",
+    "onboarding_name": "Onboarding Dipendenti",
+    "onboarding_desc": "Automatizza l'intero processo di onboarding: crea account, provisiona accessi, notifica i team e configura la postazione.",
+    "offboarding_name": "Offboarding Dipendenti",
+    "offboarding_desc": "Disattivazione sicura del dipendente in uscita: revoca accessi, disabilita account, trasferisci dati e notifica gli stakeholder.",
+    "patch_name": "Gestione Patch",
+    "patch_desc": "Deploy programmato delle patch: scansiona aggiornamenti, testa in staging, distribuisci in produzione e verifica la conformita.",
+    "backup_name": "Verifica Backup",
+    "backup_desc": "Controlli automatici dello stato dei backup: verifica completamento, testa il ripristino e invia alert in caso di errori.",
+    "access_name": "Revisione Accessi",
+    "access_desc": "Audit periodico degli accessi: estrai permessi utente, segnala accessi eccessivi, inoltra approvazioni ai manager e revoca gli accessi non autorizzati."
   },
   "landing": {
     "title": "IT Ops Automation",

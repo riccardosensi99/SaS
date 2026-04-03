@@ -3,7 +3,8 @@
     "allow": [
       "WebSearch",
       "WebFetch(domain:1111systems.com)",
-      "WebFetch(domain:www.nxcode.io)"
+      "WebFetch(domain:www.nxcode.io)",
+      "Bash(npx prisma:*)"
     ]
   }
 }
