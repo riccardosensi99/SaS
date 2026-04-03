@@ -17,7 +17,24 @@
     "active": "Active",
     "templates": "Templates",
     "compliance": "Compliance",
-    "security": "Security"
+    "security": "Security",
+    "logout": "Logout"
+  },
+  "auth": {
+    "login": "Sign In",
+    "loginSubtitle": "Sign in to your account",
+    "loginButton": "Sign In",
+    "loginError": "Invalid email or password",
+    "register": "Create Account",
+    "registerSubtitle": "Start automating your IT operations",
+    "registerButton": "Create Account",
+    "registerError": "Registration failed. Please try again.",
+    "name": "Full Name",
+    "organization": "Organization Name",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Sign Up",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Sign In"
   },
   "connectors": {
     "title": "Connectors",

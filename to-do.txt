@@ -2,75 +2,7 @@
   CORE PLATFORM
 ==============================================================================
 
-------------------------------------------------------------------------------
-[ ] AUTH-0008 — Authentication Pages and Route Protection
-------------------------------------------------------------------------------
-  Priority: HIGH
-  Dependencies: None
-  Release: None
 
-  DESCRIPTION:
-  Add login and registration UI pages, JWT session management with
-  httpOnly cookies, auth middleware to protect all app routes, and
-  a user profile dropdown in the sidebar. Currently the API supports
-  register/login/refresh but there are no frontend pages and all
-  routes are publicly accessible. This task makes the app production-
-  ready by requiring authentication for all pages except login/register.
-  Includes organization context so all API calls use the authenticated
-  user's org.
-
-  TECHNICAL DETAILS:
-  Auth Pages:
-    - Login page with email/password form
-    - Register page with name, email, password, organization name
-    - Both pages with i18n EN/IT support
-
-  Session Management:
-    - Store JWT in httpOnly cookie (not localStorage)
-    - Auth utility to get current user from cookie
-    - Refresh token rotation on expiry
-
-  Route Protection:
-    - Auth middleware checks JWT cookie on all /[locale]/* routes
-    - Redirect to /login if not authenticated
-    - /login and /register are public
-
-  Sidebar:
-    - User profile section with name, email, role
-    - Logout button
-    - Organization name display
-
-  API Changes:
-    - Auth API sets/clears httpOnly cookies
-    - All data APIs read organizationId from JWT (not query params)
-
-  Files involved:
-    CREATE:  src/app/[locale]/login/page.tsx
-    CREATE:  src/app/[locale]/register/page.tsx
-    CREATE:  src/lib/auth/session.ts
-    MODIFY:  src/app/api/auth/route.ts
-    MODIFY:  src/app/[locale]/layout.tsx
-    MODIFY:  src/middleware.ts
-
-
-==============================================================================
-  TESTING & CI
-==============================================================================
-
-------------------------------------------------------------------------------
-[ ] E2E-0009 — Playwright E2E Test Suite with Parallel CI Pipeline
-------------------------------------------------------------------------------
-  Priority: HIGH
-  Dependencies: None
-  Release: None
-
-  Files involved:
-    CREATE:  e2e/playwright.config.ts
-    CREATE:  e2e/pages.spec.ts
-    CREATE:  e2e/navigation.spec.ts
-    CREATE:  e2e/i18n.spec.ts
-    MODIFY:  package.json
-    MODIFY:  .github/workflows/test.yml
 
 
 ==============================================================================

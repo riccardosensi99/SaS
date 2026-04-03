@@ -3,7 +3,43 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { locales, type Locale } from "@/lib/i18n/config";
+import { getSession } from "@/lib/auth/session";
+import { prisma } from "@/lib/db";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LogoutButton from "@/components/LogoutButton";
+
+async function UserProfile() {
+  const session = await getSession();
+  if (!session) return null;
+
+  let user: { name: string; email: string; role: string } | null = null;
+  let orgName = "";
+  try {
+    const dbUser = await prisma.user.findUnique({
+      where: { id: session.userId },
+      include: { organization: true },
+    });
+    if (dbUser) {
+      user = { name: dbUser.name, email: dbUser.email, role: dbUser.role };
+      orgName = dbUser.organization.name;
+    }
+  } catch {
+    // DB not available
+  }
+
+  if (!user) return null;
+
+  return (
+    <div className="space-y-2">
+      <div>
+        <p className="text-sm font-medium text-white truncate">{user.name}</p>
+        <p className="text-xs text-gray-400 truncate">{user.email}</p>
+        <p className="text-xs text-gray-500 truncate">{orgName}</p>
+      </div>
+      <LogoutButton />
+    </div>
+  );
+}
 
 async function Sidebar() {
   const t = await getTranslations("common");
@@ -38,8 +74,8 @@ async function Sidebar() {
         ))}
       </nav>
       <div className="p-4 border-t border-gray-800 space-y-3">
+        <UserProfile />
         <LanguageSwitcher />
-        <p className="text-xs text-gray-500">{t("version")}</p>
       </div>
     </aside>
   );
@@ -59,7 +95,20 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
+  const session = await getSession();
 
+  // No session = auth pages (login/register), show clean layout
+  if (!session) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <NextIntlClientProvider messages={messages}>
+          <main>{children}</main>
+        </NextIntlClientProvider>
+      </div>
+    );
+  }
+
+  // Authenticated = full layout with sidebar
   return (
     <div className="flex min-h-screen bg-gray-50">
       <NextIntlClientProvider messages={messages}>
