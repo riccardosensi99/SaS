@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale } from "next-intl";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { locales, type Locale } from "@/lib/i18n/config";
 
 const languageLabels: Record<Locale, string> = {
@@ -11,27 +11,31 @@ const languageLabels: Record<Locale, string> = {
 
 export default function LanguageSwitcher() {
   const locale = useLocale() as Locale;
-  const router = useRouter();
   const pathname = usePathname();
 
-  function switchLocale(newLocale: Locale) {
-    // Remove current locale prefix if present, then add new one
+  function getLocalizedHref(newLocale: Locale): string {
+    // Strip current locale prefix if present
     let path = pathname;
     for (const loc of locales) {
-      if (path.startsWith(`/${loc}/`) || path === `/${loc}`) {
-        path = path.slice(`/${loc}`.length) || "/";
+      if (path.startsWith(`/${loc}/`)) {
+        path = path.slice(loc.length + 1);
+        break;
+      }
+      if (path === `/${loc}`) {
+        path = "/";
         break;
       }
     }
-    router.push(`/${newLocale}${path === "/" ? "" : path}`);
+    // Build new path with locale prefix
+    return `/${newLocale}${path === "/" ? "" : path}`;
   }
 
   return (
     <div className="flex items-center gap-1.5">
       {locales.map((loc) => (
-        <button
+        <a
           key={loc}
-          onClick={() => switchLocale(loc)}
+          href={getLocalizedHref(loc)}
           className={`px-2 py-1 text-xs rounded transition-colors ${
             locale === loc
               ? "bg-primary-600 text-white"
@@ -39,7 +43,7 @@ export default function LanguageSwitcher() {
           }`}
         >
           {languageLabels[loc]}
-        </button>
+        </a>
       ))}
     </div>
   );
