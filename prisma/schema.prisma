@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users      User[]
+  workflows  Workflow[]
+  executions WorkflowExecution[]
+  auditLogs  AuditLog[]
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  passwordHash   String
+  name           String
+  role           UserRole @default(MEMBER)
+  organizationId String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  auditLogs    AuditLog[]
+
+  @@index([organizationId])
+}
+
+enum UserRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+model Workflow {
+  id             String         @id @default(cuid())
+  name           String
+  description    String?
+  status         WorkflowStatus @default(DRAFT)
+  trigger        TriggerType    @default(MANUAL)
+  schedule       String?
+  definition     Json
+  organizationId String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  organization Organization        @relation(fields: [organizationId], references: [id])
+  steps        WorkflowStep[]
+  executions   WorkflowExecution[]
+
+  @@index([organizationId])
+}
+
+enum WorkflowStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+enum TriggerType {
+  MANUAL
+  SCHEDULED
+  WEBHOOK
+  EVENT
+}
+
+model WorkflowStep {
+  id         String   @id @default(cuid())
+  workflowId String
+  name       String
+  type       StepType
+  config     Json
+  position   Json
+  order      Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  workflow Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+
+  @@index([workflowId])
+}
+
+enum StepType {
+  SCRIPT
+  HTTP_REQUEST
+  EMAIL_NOTIFICATION
+  APPROVAL
+  CONDITION
+  DELAY
+  CREATE_USER
+  DISABLE_USER
+  INSTALL_SOFTWARE
+  RUN_COMMAND
+}
+
+model WorkflowExecution {
+  id             String          @id @default(cuid())
+  workflowId     String
+  organizationId String
+  status         ExecutionStatus @default(PENDING)
+  startedAt      DateTime?
+  completedAt    DateTime?
+  output         Json?
+  error          String?
+  createdAt      DateTime        @default(now())
+
+  workflow     Workflow     @relation(fields: [workflowId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([workflowId])
+  @@index([organizationId])
+}
+
+enum ExecutionStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+model AuditLog {
+  id             String   @id @default(cuid())
+  action         String
+  entity         String
+  entityId       String
+  details        Json?
+  userId         String
+  organizationId String
+  createdAt      DateTime @default(now())
+
+  user         User         @relation(fields: [userId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([userId])
+}
