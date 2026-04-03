@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { prisma } from "@/lib/db";
+import { setAuthCookies, clearAuthCookies } from "@/lib/auth/session";
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
 const JWT_EXPIRES_IN = (process.env.JWT_EXPIRES_IN || "15m") as jwt.SignOptions["expiresIn"];
@@ -15,6 +16,14 @@ function generateTokens(userId: string, organizationId: string) {
     expiresIn: JWT_REFRESH_EXPIRES_IN,
   });
   return { accessToken, refreshToken };
+}
+
+function addCookiesToResponse(response: NextResponse, accessToken: string, refreshToken: string) {
+  const cookieDefs = setAuthCookies(accessToken, refreshToken);
+  for (const c of cookieDefs) {
+    response.cookies.set(c.name, c.value, c.options as Parameters<typeof response.cookies.set>[2]);
+  }
+  return response;
 }
 
 export async function POST(request: NextRequest) {
@@ -52,11 +61,13 @@ export async function POST(request: NextRequest) {
       const user = organization.users[0];
       const tokens = generateTokens(user.id, organization.id);
 
-      return NextResponse.json({
+      const response = NextResponse.json({
         user: { id: user.id, email: user.email, name: user.name, role: user.role },
         organization: { id: organization.id, name: organization.name, slug: organization.slug },
         ...tokens,
       });
+
+      return addCookiesToResponse(response, tokens.accessToken, tokens.refreshToken);
     }
 
     if (action === "login") {
@@ -77,7 +88,7 @@ export async function POST(request: NextRequest) {
 
       const tokens = generateTokens(user.id, user.organizationId);
 
-      return NextResponse.json({
+      const response = NextResponse.json({
         user: { id: user.id, email: user.email, name: user.name, role: user.role },
         organization: {
           id: user.organization.id,
@@ -86,6 +97,8 @@ export async function POST(request: NextRequest) {
         },
         ...tokens,
       });
+
+      return addCookiesToResponse(response, tokens.accessToken, tokens.refreshToken);
     }
 
     if (action === "refresh") {
@@ -107,10 +120,20 @@ export async function POST(request: NextRequest) {
         }
 
         const tokens = generateTokens(payload.userId, payload.organizationId);
-        return NextResponse.json(tokens);
+        const response = NextResponse.json(tokens);
+        return addCookiesToResponse(response, tokens.accessToken, tokens.refreshToken);
       } catch {
         return NextResponse.json({ error: "Invalid or expired refresh token" }, { status: 401 });
       }
+    }
+
+    if (action === "logout") {
+      const response = NextResponse.json({ success: true });
+      const cookieDefs = clearAuthCookies();
+      for (const c of cookieDefs) {
+        response.cookies.set(c.name, c.value, c.options as Parameters<typeof response.cookies.set>[2]);
+      }
+      return response;
     }
 
     return NextResponse.json({ error: "Unknown action" }, { status: 400 });

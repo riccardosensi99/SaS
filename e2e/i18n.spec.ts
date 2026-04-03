@@ -1,6 +1,11 @@
 import { test, expect } from "@playwright/test";
+import { loginAsTestUser } from "./helpers";
 
 test.describe("Internationalization (i18n)", () => {
+  test.beforeEach(async ({ page }) => {
+    await loginAsTestUser(page);
+  });
+
   test("default language shows English content", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator("main").getByText("Go to Dashboard")).toBeVisible();

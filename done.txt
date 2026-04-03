@@ -1,4 +1,48 @@
 ==============================================================================
+  CORE PLATFORM
+==============================================================================
+
+------------------------------------------------------------------------------
+[x] AUTH-0008 — Authentication Pages and Route Protection
+------------------------------------------------------------------------------
+  Priority: HIGH
+  Dependencies: None
+  Release: None
+
+  DESCRIPTION:
+  Login and register pages with i18n EN/IT. JWT session via httpOnly
+  cookies. Middleware route protection redirecting to /login. User
+  profile in sidebar (name, email, org). Logout via /api/auth/logout
+  with server-side cookie clearing and redirect. /api/auth/me endpoint.
+  Built with TDD: 5 API tests + 11 E2E tests written first, then
+  implemented until all 90 tests pass (59 API + 31 E2E).
+
+  COMPLETED: 2026-04-03
+  Task completed and verified.
+
+
+==============================================================================
+  TESTING & CI
+==============================================================================
+
+------------------------------------------------------------------------------
+[x] E2E-0009 — Playwright E2E Test Suite with Parallel CI Pipeline
+------------------------------------------------------------------------------
+  Priority: HIGH
+  Dependencies: None
+  Release: None
+
+  DESCRIPTION:
+  Playwright E2E test suite with 20 tests across 3 specs (pages,
+  navigation, i18n). CI pipeline with api-tests and e2e-tests jobs
+  running in parallel on every PR and push to master. Jest API test
+  suite with 54 tests across 7 specs.
+
+  COMPLETED: 2026-04-03
+  Task completed and verified.
+
+
+==============================================================================
   PROJECT SETUP
 ==============================================================================
 

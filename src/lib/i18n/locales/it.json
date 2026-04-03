@@ -17,7 +17,24 @@
     "active": "Attivo",
     "templates": "Template",
     "compliance": "Conformita",
-    "security": "Sicurezza"
+    "security": "Sicurezza",
+    "logout": "Esci"
+  },
+  "auth": {
+    "login": "Accedi",
+    "loginSubtitle": "Accedi al tuo account",
+    "loginButton": "Accedi",
+    "loginError": "Email o password non validi",
+    "register": "Crea Account",
+    "registerSubtitle": "Inizia ad automatizzare le tue operazioni IT",
+    "registerButton": "Crea Account",
+    "registerError": "Registrazione fallita. Riprova.",
+    "name": "Nome Completo",
+    "organization": "Nome Organizzazione",
+    "noAccount": "Non hai un account?",
+    "registerLink": "Registrati",
+    "hasAccount": "Hai gia un account?",
+    "loginLink": "Accedi"
   },
   "security": {
     "title": "Sicurezza",

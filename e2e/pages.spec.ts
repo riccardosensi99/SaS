@@ -1,6 +1,11 @@
 import { test, expect } from "@playwright/test";
+import { loginAsTestUser } from "./helpers";
 
 test.describe("Page rendering", () => {
+  test.beforeEach(async ({ page }) => {
+    await loginAsTestUser(page);
+  });
+
   test("landing page loads with title and CTAs", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator("main h1")).toBeVisible();
