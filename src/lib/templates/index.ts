@@ -3,6 +3,10 @@ import { offboardingTemplate } from "./offboarding";
 import { patchManagementTemplate } from "./patch-management";
 import { backupVerificationTemplate } from "./backup-verification";
 import { accessReviewTemplate } from "./access-review";
+import { ransomwareResponsePlaybook } from "./security/ransomware-response";
+import { phishingContainmentPlaybook } from "./security/phishing-containment";
+import { accountLockdownPlaybook } from "./security/account-lockdown";
+import { breachNotificationPlaybook } from "./security/breach-notification";
 
 export interface WorkflowTemplate {
   id: string;
@@ -49,6 +53,10 @@ const templates: WorkflowTemplate[] = [
   patchManagementTemplate,
   backupVerificationTemplate,
   accessReviewTemplate,
+  ransomwareResponsePlaybook,
+  phishingContainmentPlaybook,
+  accountLockdownPlaybook,
+  breachNotificationPlaybook,
 ];
 
 export function listTemplates(): WorkflowTemplate[] {

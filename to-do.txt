@@ -2,145 +2,60 @@
   CORE PLATFORM
 ==============================================================================
 
-
 ------------------------------------------------------------------------------
-[ ] AI-0003 — AI-Powered Natural Language Workflow Builder
+[ ] AUTH-0008 — Authentication Pages and Route Protection
 ------------------------------------------------------------------------------
-  Priority: MEDIUM
+  Priority: HIGH
   Dependencies: None
   Release: None
 
   DESCRIPTION:
-  Add an AI assistant that allows users to describe automation workflows
-  in plain English and auto-generate the corresponding workflow graph
-  with appropriate steps, conditions, and connections. The assistant
-  uses an LLM to parse intent, map to available step types and
-  connectors, and produce a valid React Flow node/edge definition.
-  Also supports analyzing existing workflows to suggest improvements,
-  and explaining what each step does in natural language.
+  Add login and registration UI pages, JWT session management with
+  httpOnly cookies, auth middleware to protect all app routes, and
+  a user profile dropdown in the sidebar. Currently the API supports
+  register/login/refresh but there are no frontend pages and all
+  routes are publicly accessible. This task makes the app production-
+  ready by requiring authentication for all pages except login/register.
+  Includes organization context so all API calls use the authenticated
+  user's org.
 
   TECHNICAL DETAILS:
-  AI Engine:
-    - Workflow generator: NL prompt -> structured workflow definition
-    - Workflow analyzer: existing workflow -> improvement suggestions
-    - Step explainer: step config -> human-readable description
-    - Uses Claude API for generation with structured output
+  Auth Pages:
+    - Login page with email/password form
+    - Register page with name, email, password, organization name
+    - Both pages with i18n EN/IT support
 
-  Frontend:
-    - AI assistant panel in workflow builder (slide-out chat UI)
-    - "Create with AI" button on workflows page
-    - Inline suggestions overlay on existing workflow canvas
+  Session Management:
+    - Store JWT in httpOnly cookie (not localStorage)
+    - Auth utility to get current user from cookie
+    - Refresh token rotation on expiry
 
-  Backend:
-    - /api/ai/generate endpoint: accepts NL prompt, returns workflow JSON
-    - Context injection: available step types, connectors, org templates
-    - Rate limiting per organization
+  Route Protection:
+    - Auth middleware checks JWT cookie on all /[locale]/* routes
+    - Redirect to /login if not authenticated
+    - /login and /register are public
+
+  Sidebar:
+    - User profile section with name, email, role
+    - Logout button
+    - Organization name display
+
+  API Changes:
+    - Auth API sets/clears httpOnly cookies
+    - All data APIs read organizationId from JWT (not query params)
 
   Files involved:
-    CREATE:  src/lib/ai/workflow-generator.ts
-    CREATE:  src/lib/ai/workflow-analyzer.ts
-    CREATE:  src/components/workflow-builder/AiAssistant.tsx
-    CREATE:  src/app/api/ai/generate/route.ts
-    MODIFY:  src/components/workflow-builder/Canvas.tsx
-    MODIFY:  src/app/workflows/page.tsx
-
+    CREATE:  src/app/[locale]/login/page.tsx
+    CREATE:  src/app/[locale]/register/page.tsx
+    CREATE:  src/lib/auth/session.ts
+    MODIFY:  src/app/api/auth/route.ts
+    MODIFY:  src/app/[locale]/layout.tsx
+    MODIFY:  src/middleware.ts
 
 
 ==============================================================================
   SECURITY & COMPLIANCE
 ==============================================================================
 
-------------------------------------------------------------------------------
-[ ] COMP-0004 — Compliance Dashboard and Automated Audit Reporting
-------------------------------------------------------------------------------
-  Priority: MEDIUM
-  Dependencies: None
-  Release: None
-
-  DESCRIPTION:
-  A compliance dashboard that surfaces the existing AuditLog data into
-  actionable views organized by compliance framework (SOC 2, HIPAA, GDPR,
-  PCI-DSS). Each framework view maps audit log entries to specific controls,
-  showing enforcement status and gaps. Includes exportable PDF and CSV
-  reports with execution history as evidence. Supports scheduled report
-  generation with email delivery to stakeholders (weekly/monthly).
-
-  TECHNICAL DETAILS:
-  Compliance Engine:
-    - Framework definitions mapping controls to audit log actions
-    - Control status calculation: enforced, partial, gap
-    - Report generator producing PDF and CSV output
-
-  Frontend:
-    - Compliance dashboard with framework selector and status overview
-    - Per-framework detail page with control-by-control breakdown
-    - Report generation UI with format and schedule options
-
-  Backend:
-    - /api/compliance endpoint for dashboard data and control status
-    - /api/compliance/reports endpoint for on-demand and scheduled reports
-
-  Database:
-    - ComplianceReport model (framework, generatedAt, format, url)
-    - ComplianceControl model (framework, controlId, description, status)
-
-  Files involved:
-    CREATE:  src/app/compliance/page.tsx
-    CREATE:  src/app/compliance/[framework]/page.tsx
-    CREATE:  src/app/api/compliance/route.ts
-    CREATE:  src/app/api/compliance/reports/route.ts
-    CREATE:  src/lib/compliance/frameworks.ts
-    CREATE:  src/lib/compliance/report-generator.ts
-    MODIFY:  prisma/schema.prisma
-    MODIFY:  src/app/layout.tsx
-
-
-------------------------------------------------------------------------------
-[ ] SEC-0006 — Automated Security Incident Response Playbooks
-------------------------------------------------------------------------------
-  Priority: MEDIUM
-  Dependencies: TMPL-0005
-  Release: None
-
-  DESCRIPTION:
-  Pre-built security response workflow playbooks for common incident types.
-  Each playbook is a specialized workflow template with automated actions
-  and human approval gates for critical decisions. Includes a dedicated
-  security dashboard for monitoring active incidents and response status.
-  Initial playbooks: ransomware detection response, phishing email
-  containment, compromised account lockdown, and data breach notification.
-  Playbooks integrate with the approval step type for escalation and
-  with connectors for automated remediation actions.
-
-  TECHNICAL DETAILS:
-  Playbook System:
-    - Extends template library with security-specific metadata
-    - Incident severity levels and escalation policies
-    - Automated actions: isolate host, revoke credentials, collect logs
-    - Human approval gates for destructive or irreversible actions
-
-  Frontend:
-    - Security playbooks dashboard with incident timeline
-    - Active incident tracker with real-time status updates
-    - Playbook detail view with response procedure documentation
-
-  Backend:
-    - /api/security/incidents endpoint for incident tracking
-    - Priority queue execution for security workflows
-    - Incident model linking executions to security events
-
-  Database:
-    - SecurityIncident model (type, severity, status, playbookId, timeline)
-
-  Files involved:
-    CREATE:  src/lib/templates/security/ransomware-response.ts
-    CREATE:  src/lib/templates/security/phishing-containment.ts
-    CREATE:  src/lib/templates/security/account-lockdown.ts
-    CREATE:  src/lib/templates/security/breach-notification.ts
-    CREATE:  src/app/security/page.tsx
-    CREATE:  src/app/api/security/incidents/route.ts
-    MODIFY:  prisma/schema.prisma
-    MODIFY:  src/app/layout.tsx
-    MODIFY:  src/lib/queue/worker.ts
 
 

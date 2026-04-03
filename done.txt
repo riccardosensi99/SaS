@@ -68,6 +68,58 @@
 ==============================================================================
 
 ------------------------------------------------------------------------------
+[x] SEC-0006 — Automated Security Incident Response Playbooks
+------------------------------------------------------------------------------
+  Priority: MEDIUM
+  Dependencies: TMPL-0005
+  Release: None
+
+  DESCRIPTION:
+  4 security playbooks (Ransomware Response, Phishing Containment,
+  Account Lockdown, Data Breach Notification) registered in template
+  system. Security dashboard with playbooks/incidents tabs. Incident
+  tracking API with CRUD and timeline. SecurityIncident DB model.
+  Full i18n EN/IT.
+
+  COMPLETED: 2026-04-03
+  Task completed and verified.
+
+
+------------------------------------------------------------------------------
+[x] COMP-0004 — Compliance Dashboard and Automated Audit Reporting
+------------------------------------------------------------------------------
+  Priority: MEDIUM
+  Dependencies: None
+  Release: None
+
+  DESCRIPTION:
+  Compliance dashboard with 4 frameworks (SOC 2, GDPR, HIPAA, PCI-DSS),
+  control-by-control breakdown, score calculation, CSV export.
+  Full i18n EN/IT. API endpoints for dashboard data and report generation.
+
+  COMPLETED: 2026-04-03
+  Task completed and verified.
+
+
+------------------------------------------------------------------------------
+[x] AI-0003 — AI-Powered Natural Language Workflow Builder
+------------------------------------------------------------------------------
+  Priority: MEDIUM
+  Dependencies: None
+  Release: None
+
+  DESCRIPTION:
+  AI assistant with chat UI for generating workflows from natural language
+  descriptions. Supports EN/IT prompts. Workflow analyzer scores existing
+  workflows and suggests improvements. Step explainer provides human-
+  readable descriptions. Uses Claude API when available, fallback to
+  keyword-based generation. Full i18n support.
+
+  COMPLETED: 2026-04-03
+  Task completed and verified.
+
+
+------------------------------------------------------------------------------
 [x] INTG-0002 — Integration Connector Marketplace
 ------------------------------------------------------------------------------
   Priority: HIGH

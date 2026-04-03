@@ -18,7 +18,8 @@ model Organization {
   workflows        Workflow[]
   executions       WorkflowExecution[]
   auditLogs        AuditLog[]
-  connectorConfigs ConnectorConfig[]
+  connectorConfigs  ConnectorConfig[]
+  securityIncidents SecurityIncident[]
 }
 
 model User {
@@ -161,4 +162,23 @@ model ConnectorConfig {
 
   @@unique([connectorId, organizationId])
   @@index([organizationId])
+}
+
+model SecurityIncident {
+  id             String         @id @default(cuid())
+  type           String
+  severity       String
+  status         String         @default("OPEN")
+  description    String
+  playbookId     String?
+  timeline       Json
+  organizationId String
+  resolvedAt     DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([status])
 }
