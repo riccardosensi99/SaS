@@ -1,5 +1,6 @@
 import { Worker, Job } from "bullmq";
 import IORedis from "ioredis";
+import { getConnector } from "../connectors/registry";
 
 const connection = new IORedis(process.env.REDIS_URL || "redis://localhost:6379", {
   maxRetriesPerRequest: null,
@@ -66,6 +67,21 @@ async function executeStep(step: WorkflowJobData["steps"][number]): Promise<{
         status: "completed",
         output: { message: `${step.type} executed (stub)` },
       };
+
+    case "CONNECTOR_ACTION": {
+      const { connectorId, actionId, credentials, ...actionInput } = step.config as {
+        connectorId: string; actionId: string; credentials: Record<string, unknown>;
+      };
+      const connector = getConnector(connectorId);
+      if (!connector) return { stepId: step.id, status: "failed", error: `Connector not found: ${connectorId}` };
+      const result = await connector.execute(actionId, actionInput, credentials || {});
+      return {
+        stepId: step.id,
+        status: result.success ? "completed" : "failed",
+        output: result.output,
+        error: result.error,
+      };
+    }
 
     default:
       return { stepId: step.id, status: "failed", error: `Unknown step type: ${step.type}` };

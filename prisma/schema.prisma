@@ -14,10 +14,11 @@ model Organization {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users      User[]
-  workflows  Workflow[]
-  executions WorkflowExecution[]
-  auditLogs  AuditLog[]
+  users            User[]
+  workflows        Workflow[]
+  executions       WorkflowExecution[]
+  auditLogs        AuditLog[]
+  connectorConfigs ConnectorConfig[]
 }
 
 model User {
@@ -102,6 +103,7 @@ enum StepType {
   DISABLE_USER
   INSTALL_SOFTWARE
   RUN_COMMAND
+  CONNECTOR_ACTION
 }
 
 model WorkflowExecution {
@@ -145,4 +147,18 @@ model AuditLog {
 
   @@index([organizationId])
   @@index([userId])
+}
+
+model ConnectorConfig {
+  id             String   @id @default(cuid())
+  connectorId    String
+  organizationId String
+  credentials    Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([connectorId, organizationId])
+  @@index([organizationId])
 }

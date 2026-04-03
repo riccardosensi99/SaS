@@ -2,56 +2,6 @@
   CORE PLATFORM
 ==============================================================================
 
-------------------------------------------------------------------------------
-[ ] INTG-0002 — Integration Connector Marketplace
-------------------------------------------------------------------------------
-  Priority: HIGH
-  Dependencies: None
-  Release: None
-
-  DESCRIPTION:
-  Build a plugin-based connector system that provides pre-built integrations
-  for common IT tools and services. Each connector exposes actions and
-  triggers that can be used as workflow steps without manual HTTP
-  configuration. Initial connectors: Active Directory/LDAP for user
-  management, Slack for notifications, Jira for ticket operations,
-  PagerDuty for incident alerts, and cloud provider APIs (AWS/Azure/GCP).
-  Includes a browsable marketplace UI for discovering and enabling
-  connectors per organization.
-
-  TECHNICAL DETAILS:
-  Connector Architecture:
-    - Plugin interface with standard lifecycle (init, execute, validate)
-    - Registry pattern for dynamic connector discovery and loading
-    - Per-organization connector configuration with encrypted credentials
-    - Connector actions map to workflow step types at runtime
-
-  Frontend:
-    - Marketplace page with search, filter by category, and enable/disable
-    - Connector config modal for credentials and settings
-    - Canvas integration: connector steps appear in the step palette
-
-  Backend:
-    - Connectors API for CRUD and marketplace listing
-    - Worker integration: execute connector actions during workflow runs
-    - Credential storage with encryption at rest
-
-  Database:
-    - Connector model (name, type, version, schema, icon)
-    - ConnectorConfig model (organizationId, connectorId, credentials)
-
-  Files involved:
-    CREATE:  src/lib/connectors/types.ts
-    CREATE:  src/lib/connectors/registry.ts
-    CREATE:  src/lib/connectors/slack/index.ts
-    CREATE:  src/lib/connectors/jira/index.ts
-    CREATE:  src/lib/connectors/ldap/index.ts
-    CREATE:  src/app/connectors/page.tsx
-    CREATE:  src/app/api/connectors/route.ts
-    MODIFY:  src/components/workflow-builder/Canvas.tsx
-    MODIFY:  src/lib/queue/worker.ts
-    MODIFY:  prisma/schema.prisma
-
 
 ------------------------------------------------------------------------------
 [ ] AI-0003 — AI-Powered Natural Language Workflow Builder

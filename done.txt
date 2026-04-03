@@ -45,3 +45,26 @@
   Task completed and verified.
 
 
+==============================================================================
+  CORE PLATFORM
+==============================================================================
+
+------------------------------------------------------------------------------
+[x] INTG-0002 — Integration Connector Marketplace
+------------------------------------------------------------------------------
+  Priority: HIGH
+  Dependencies: None
+  Release: None
+
+  DESCRIPTION:
+  Built plugin-based connector system with 3 initial connectors (Slack,
+  Jira, LDAP/AD). Marketplace UI with category filters, connector cards,
+  enable/disable flow. Full i18n support (EN/IT). Connectors API for
+  CRUD and org-level configuration. Worker integration for executing
+  connector actions during workflow runs. Fixed LanguageSwitcher for
+  proper full-page locale navigation.
+
+  COMPLETED: 2026-04-03
+  Task completed and verified.
+
+
